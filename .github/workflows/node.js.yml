@@ -1,4 +1,4 @@
-# this yml file will run automated slack updates from Github
+# This YAML file will run automated Slack updates from GitHub
 
 name: Node.js CI
 
@@ -7,32 +7,29 @@ on:
     branches: ["main", "dev"]
   pull_request:
     branches: ["main", "dev"]
-
-  # cron style schedule to run the app
   schedule:
     - cron: '0 8 * * *'
 
-  # this will pull API keys, once you add them to "Secrets" section of repo
-  env:
-    PW: ${{ secrets.PW }}
-    SlackKey: ${{ secrets.SlackKey }}
-  
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      strategy:
-        matrix:
-          node-version: [20.x]
-      steps:
-        - uses: actions/checkout@v3
-        - name: Use Node.js ${{ matrix.node-version }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+    env:
+      PW: ${{ secrets.PW }}
+      SlackKey: ${{ secrets.SlackKey }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
-        with: 
+        with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-        - name: Change direcotry and list files
-          run: | 
-            cd .
-            ls
-        - run: npm install
-        - run: npm start
+      - name: List files in directory
+        run: |
+          ls -a
+      - name: Install dependencies
+        run: npm install
+      - name: Start the application
+        run: npm start
