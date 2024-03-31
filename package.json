@@ -1,0 +1,17 @@
+{
+  "name": "qsys-slack-updater",
+  "version": "1.0.0",
+  "description": "\"automated Slack messages from Reflect API\"",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Patrick Gilligan",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/web-api": "^7.0.2",
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5"
+  }
+}
